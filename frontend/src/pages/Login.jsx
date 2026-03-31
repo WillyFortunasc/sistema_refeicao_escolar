@@ -37,8 +37,8 @@ function Login() {
           Entrar
         </button>
 
-        <button className="w-full bg-red-500 text-white p-2 rounded">
-          Entrar com Google
+        <button className="w-full bg-red-500 text-white p-2 rounded flex items-center justify-center gap-2">
+          🔐 Entrar com Google
         </button>
       </div>
     </div>

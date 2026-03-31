@@ -9,7 +9,7 @@ export function AuthProvider({ children }) {
     // simulação de login
     setUser({
       nome: 'Willy',
-      papel: 'operador', // pode mudar para: operador, empresa, fiscal, gestor
+      papel: 'admin', // pode mudar para: operador, empresa, fiscal, gestor
     })
   }
 

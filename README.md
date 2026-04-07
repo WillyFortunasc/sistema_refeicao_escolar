@@ -5,7 +5,7 @@ Sistema de gestão de refeições escolares com autenticação via JWT e Google 
 ---
 ## 1. Backend
 
-## 📋 Índice
+### 📋 Índice
 
 1. [Configuração do ambiente no Windows com VSCode](#1-configuração-do-ambiente-no-windows-com-vscode)
 2. [Estrutura do projeto e bibliotecas utilizadas](#2-estrutura-do-projeto-e-bibliotecas-utilizadas)
@@ -15,9 +15,9 @@ Sistema de gestão de refeições escolares com autenticação via JWT e Google 
 
 ---
 
-## 1. Configuração do ambiente no Windows com VSCode
+### 1. Configuração do ambiente no Windows com VSCode
 
-### Pré-requisitos
+#### Pré-requisitos
 
 Instale as ferramentas abaixo antes de começar:
 
@@ -30,7 +30,7 @@ Instale as ferramentas abaixo antes de começar:
 
 > **Atenção durante a instalação do Python:** marque a opção **"Add Python to PATH"** na primeira tela do instalador.
 
-### Extensões recomendadas do VSCode
+#### Extensões recomendadas do VSCode
 
 Abra o VSCode, vá em **Extensions** (`Ctrl+Shift+X`) e instale:
 
@@ -38,10 +38,10 @@ Abra o VSCode, vá em **Extensions** (`Ctrl+Shift+X`) e instale:
 - `Pylance` (Microsoft)
 - `ES7+ React/Redux/React-Native snippets`
 - `Tailwind CSS IntelliSense`
-- `REST Client` (para testar endpoints diretamente no editor)
+- `Thunder Client` (para testar endpoints diretamente no editor)
 - `GitLens`
 
-### Clonar o repositório
+#### Clonar o repositório
 
 Abra o terminal integrado do VSCode (`Ctrl+`` `):
 
@@ -50,7 +50,7 @@ git clone <URL_DO_REPOSITORIO>
 cd sistema-refeicao-escolar
 ```
 
-### Configurar o ambiente virtual Python
+#### Configurar o ambiente virtual Python
 
 ```bash
 # Criar o ambiente virtual
@@ -65,13 +65,13 @@ venv\Scripts\activate
 > Se o PowerShell bloquear a execução de scripts, execute primeiro:
 > `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser`
 
-### Instalar dependências Python
+#### Instalar dependências Python
 
 ```bash
 pip install -r requirements.txt
 ```
 
-### Configurar as variáveis de ambiente
+#### Configurar as variáveis de ambiente
 
 Copie o arquivo de exemplo e edite com suas configurações:
 
@@ -99,7 +99,7 @@ GOOGLE_ALLOWED_DOMAINS=
 > python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
 > ```
 
-### Configurar o banco de dados
+#### Configurar o banco de dados
 
 ```bash
 python manage.py migrate
@@ -109,9 +109,9 @@ O ambiente está configurado. Prossiga para a seção 3 para rodar o projeto.
 
 ---
 
-## 2. Estrutura do projeto e bibliotecas utilizadas
+### 2. Estrutura do projeto e bibliotecas utilizadas
 
-### Estrutura de diretórios
+#### Estrutura de diretórios
 
 ```
 sistema-refeicao-escolar/
@@ -146,7 +146,7 @@ sistema-refeicao-escolar/
 └── .env.example                # Modelo de variáveis de ambiente
 ```
 
-### Backend — bibliotecas Python
+#### Backend — bibliotecas Python
 
 | Biblioteca | Versão | Finalidade |
 |---|---|---|
@@ -158,7 +158,7 @@ sistema-refeicao-escolar/
 | **PyJWT** | — | Geração e validação de tokens JWT para autenticação stateless |
 
 
-### Modelo de usuário e papéis
+#### Modelo de usuário e papéis
 
 O sistema utiliza um modelo `Usuario` customizado (substituindo o `User` padrão do Django) com os seguintes papéis:
 
@@ -172,9 +172,9 @@ O sistema utiliza um modelo `Usuario` customizado (substituindo o `User` padrão
 
 ---
 
-## 3. Como rodar o projeto localmente
+### 3. Como rodar o projeto localmente
 
-### Backend (Django)
+#### Backend (Django)
 
 Certifique-se de que o ambiente virtual está ativado (`(venv)` no terminal):
 
@@ -210,32 +210,70 @@ O painel admin do Django estará em: **http://localhost:8000/admin/**
 
 ---
 
-## 4. Como testar os endpoints
+### 4. Como testar os endpoints
 
 Você pode testar os endpoints com qualquer ferramenta de sua preferência. Abaixo estão as instruções para as mais comuns.
 
-### Opção A — REST Client (VSCode)
+#### Opção A — Thunder Client (VSCode)
 
-Instale a extensão **REST Client** no VSCode e crie um arquivo `tests.http` na raiz do projeto:
+O **Thunder Client** é uma extensão leve do VSCode para testar APIs REST, sem precisar sair do editor.
 
-```http
-### Health check
-GET http://localhost:8000/api/health/
+**Instalação**
 
-### Login
-POST http://localhost:8000/api/login/
-Content-Type: application/json
+1. Abra o VSCode e vá em **Extensions** (`Ctrl+Shift+X`)
+2. Pesquise por `Thunder Client`
+3. Clique em **Install** na extensão de autoria de *Ranga Vadhineni*
+4. Após instalar, um ícone de raio (⚡) aparecerá na barra lateral esquerda
 
+**Como fazer uma requisição**
+
+1. Clique no ícone ⚡ na barra lateral para abrir o Thunder Client
+2. Clique em **New Request** no topo do painel
+3. Escolha o método HTTP (`GET`, `POST`, `PATCH`, `DELETE`) no seletor à esquerda da URL
+4. Digite a URL desejada (ex: `http://localhost:8000/api/health/`)
+5. Clique em **Send**
+
+**Configurando headers e body**
+
+- Para enviar JSON no corpo da requisição: clique na aba **Body** → selecione **JSON** → insira o payload
+- Para enviar o token JWT: clique na aba **Headers** → adicione o header:
+  - Nome: `Authorization`
+  - Valor: `Bearer <SEU_TOKEN_AQUI>`
+
+**Exemplos de requisições**
+
+Abaixo estão as requisições para testar os principais endpoints do sistema:
+
+---
+
+🔵 **Health check**
+- Método: `GET`
+- URL: `http://localhost:8000/api/health/`
+
+---
+
+🔵 **Login**
+- Método: `POST`
+- URL: `http://localhost:8000/api/login/`
+- Aba **Headers**: `Content-Type: application/json`
+- Aba **Body** (JSON):
+```json
 {
   "email": "admin@sistema.com",
   "senha": "Admin@123"
 }
+```
 
-### Registro de novo usuário (requer token de admin)
-POST http://localhost:8000/api/registro/
-Content-Type: application/json
-Authorization: Bearer <COLE_O_TOKEN_AQUI>
+---
 
+🔵 **Registro de novo usuário** *(requer token de admin)*
+- Método: `POST`
+- URL: `http://localhost:8000/api/registro/`
+- Aba **Headers**:
+  - `Content-Type: application/json`
+  - `Authorization: Bearer <COLE_O_TOKEN_AQUI>`
+- Aba **Body** (JSON):
+```json
 {
   "nome": "Novo Fiscal",
   "email": "novo.fiscal@sistema.com",
@@ -243,51 +281,84 @@ Authorization: Bearer <COLE_O_TOKEN_AQUI>
   "senha": "Fiscal@123",
   "confirmar_senha": "Fiscal@123"
 }
+```
 
-### Dados do usuário autenticado
-GET http://localhost:8000/api/auth/me/
-Authorization: Bearer <COLE_O_TOKEN_AQUI>
+---
 
-### Listar todos os usuários (somente admin)
-GET http://localhost:8000/api/usuarios/
-Authorization: Bearer <COLE_O_TOKEN_AQUI>
+🔵 **Dados do usuário autenticado**
+- Método: `GET`
+- URL: `http://localhost:8000/api/auth/me/`
+- Aba **Headers**: `Authorization: Bearer <COLE_O_TOKEN_AQUI>`
 
-### Detalhe de um usuário específico
-GET http://localhost:8000/api/usuarios/1/
-Authorization: Bearer <COLE_O_TOKEN_AQUI>
+---
 
-### Editar papel de um usuário
-PATCH http://localhost:8000/api/usuarios/1/
-Content-Type: application/json
-Authorization: Bearer <COLE_O_TOKEN_AQUI>
+🔵 **Listar todos os usuários** *(somente admin)*
+- Método: `GET`
+- URL: `http://localhost:8000/api/usuarios/`
+- Aba **Headers**: `Authorization: Bearer <COLE_O_TOKEN_AQUI>`
 
+---
+
+🔵 **Detalhe de um usuário específico**
+- Método: `GET`
+- URL: `http://localhost:8000/api/usuarios/1/`
+- Aba **Headers**: `Authorization: Bearer <COLE_O_TOKEN_AQUI>`
+
+---
+
+🔵 **Editar papel de um usuário**
+- Método: `PATCH`
+- URL: `http://localhost:8000/api/usuarios/1/`
+- Aba **Headers**:
+  - `Content-Type: application/json`
+  - `Authorization: Bearer <COLE_O_TOKEN_AQUI>`
+- Aba **Body** (JSON):
+```json
 {
   "papel": "gestor"
 }
+```
 
-### Desativar um usuário
-PATCH http://localhost:8000/api/usuarios/1/
-Content-Type: application/json
-Authorization: Bearer <COLE_O_TOKEN_AQUI>
+---
 
+🔵 **Desativar um usuário**
+- Método: `PATCH`
+- URL: `http://localhost:8000/api/usuarios/1/`
+- Aba **Headers**:
+  - `Content-Type: application/json`
+  - `Authorization: Bearer <COLE_O_TOKEN_AQUI>`
+- Aba **Body** (JSON):
+```json
 {
   "ativo": false
 }
+```
 
-### Deletar um usuário
-DELETE http://localhost:8000/api/usuarios/1/
-Authorization: Bearer <COLE_O_TOKEN_AQUI>
+---
 
-### Renovar token (refresh)
-POST http://localhost:8000/api/auth/refresh/
-Content-Type: application/json
+🔵 **Deletar um usuário**
+- Método: `DELETE`
+- URL: `http://localhost:8000/api/usuarios/1/`
+- Aba **Headers**: `Authorization: Bearer <COLE_O_TOKEN_AQUI>`
 
+---
+
+🔵 **Renovar token (refresh)**
+- Método: `POST`
+- URL: `http://localhost:8000/api/auth/refresh/`
+- Aba **Headers**: `Content-Type: application/json`
+- Aba **Body** (JSON):
+```json
 {
   "refresh": "<COLE_O_REFRESH_TOKEN_AQUI>"
 }
 ```
 
-Clique em **Send Request** acima de cada bloco para executar.
+---
+
+> 💡 **Dica — Salvar requisições em coleções:** No Thunder Client, clique em **Collections** → **New Collection** para criar uma coleção chamada, por exemplo, `Sistema Refeição Escolar`. Salve cada requisição na coleção clicando em **Save** após criá-la. Isso permite reutilizá-las facilmente sem precisar redigitar URLs e headers toda vez.
+
+> 💡 **Dica — Variáveis de ambiente:** Acesse **Env** no painel lateral → **New Environment** → crie uma variável `base_url` com valor `http://localhost:8000` e uma variável `token` onde você cola o JWT após o login. Nas requisições, use `{{base_url}}/api/login/` e `Bearer {{token}}` para não precisar repetir os valores manualmente.
 
 
 ### Tabela de endpoints
@@ -306,9 +377,9 @@ Clique em **Send Request** acima de cada bloco para executar.
 
 ---
 
-## 5. Autenticação — como funciona e como testar
+### 5. Autenticação — como funciona e como testar
 
-### Como funciona
+#### Como funciona
 
 O sistema utiliza **JWT (JSON Web Token)** para autenticação stateless. O fluxo completo é:
 
@@ -327,7 +398,7 @@ O sistema utiliza **JWT (JSON Web Token)** para autenticação stateless. O flux
 
 O token JWT contém o payload: `{ "id": ..., "email": "...", "papel": "..." }`, assinado com a `SECRET_KEY` do Django.
 
-### Papéis e controle de acesso
+#### Papéis e controle de acesso
 
 As permissões são verificadas em cada view com base no campo `papel` do usuário:
 
@@ -342,7 +413,7 @@ operador → acesso básico
 Qualquer papel autenticado pode acessar `GET /api/auth/me/`.
 Apenas `admin` pode acessar `/api/registro/` e `/api/usuarios/`.
 
-### Passo a passo para testar a autenticação
+#### Passo a passo para testar a autenticação
 
 **Passo 1 — Popular o banco com usuários de teste**
 
@@ -433,7 +504,7 @@ curl -X POST http://localhost:8000/api/auth/refresh/ \
 
 Resposta esperada: novo `access` token.
 
-### Rodando os testes automatizados de autenticação
+#### Rodando os testes automatizados de autenticação
 
 O projeto inclui uma suite completa de testes em `api/tests/test_auth.py` que cobre todos os cenários descritos acima:
 
@@ -461,7 +532,7 @@ Os testes cobrem:
 - Renovação e invalidação de tokens
 - Controle de acesso por papel para todos os endpoints protegidos
 
-### Configurar Google OAuth2 (opcional)
+#### Configurar Google OAuth2 (opcional)
 
 Para habilitar o login com Google:
 
@@ -494,6 +565,7 @@ Tecnologias utilizadas:
 cd frontend
 npm install
 npm run dev
+```
 
 🌐 Acesso
 

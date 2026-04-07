@@ -3,6 +3,7 @@
 Sistema de gestão de refeições escolares com autenticação via JWT e Google OAuth2, desenvolvido com Django REST Framework no backend e React + Vite no frontend.
 
 ---
+1. Backend
 
 ## 📋 Índice
 
@@ -104,14 +105,6 @@ GOOGLE_ALLOWED_DOMAINS=
 python manage.py migrate
 ```
 
-### Instalar dependências do frontend
-
-```bash
-cd frontend
-npm install
-cd ..
-```
-
 O ambiente está configurado. Prossiga para a seção 3 para rodar o projeto.
 
 ---
@@ -164,14 +157,6 @@ sistema-refeicao-escolar/
 | **psycopg2-binary** | 2.9.11 | Driver PostgreSQL (usado apenas em produção; em dev usa SQLite) |
 | **PyJWT** | — | Geração e validação de tokens JWT para autenticação stateless |
 
-### Frontend — bibliotecas JavaScript
-
-| Biblioteca | Finalidade |
-|---|---|
-| **React** | Biblioteca principal para construção da interface |
-| **Vite** | Bundler e servidor de desenvolvimento rápido |
-| **TailwindCSS** | Estilização com classes utilitárias |
-| **Axios** | Cliente HTTP para comunicação com a API Django |
 
 ### Modelo de usuário e papéis
 
@@ -216,22 +201,10 @@ O painel admin do Django estará em: **http://localhost:8000/admin/**
 > python manage.py createsuperuser
 > ```
 
-### Frontend (React + Vite)
-
-Abra um **segundo terminal** no VSCode (`Ctrl+Shift+`` `) e execute:
-
-```bash
-cd frontend
-npm run dev
-```
-
-O frontend estará disponível em: **http://localhost:5173**
-
 ### Resumo dos endereços
 
 | Serviço | URL |
 |---|---|
-| Frontend React | http://localhost:5173 |
 | API Django | http://localhost:8000/api/ |
 | Admin Django | http://localhost:8000/admin/ |
 
@@ -316,25 +289,6 @@ Content-Type: application/json
 
 Clique em **Send Request** acima de cada bloco para executar.
 
-### Opção B — curl (terminal)
-
-```bash
-# Login
-curl -X POST http://localhost:8000/api/login/ \
-  -H "Content-Type: application/json" \
-  -d "{\"email\": \"admin@sistema.com\", \"senha\": \"Admin@123\"}"
-
-# Listar usuários (substitua TOKEN pelo valor recebido no login)
-curl http://localhost:8000/api/usuarios/ \
-  -H "Authorization: Bearer TOKEN"
-```
-
-### Opção C — Postman
-
-1. Baixe e instale o [Postman](https://www.postman.com/downloads/)
-2. Crie uma nova **Collection** chamada `Refeição Escolar`
-3. Adicione as requisições conforme a tabela abaixo
-4. Para endpoints autenticados, vá em **Authorization → Bearer Token** e cole o token obtido no login
 
 ### Tabela de endpoints
 
@@ -526,9 +480,8 @@ GOOGLE_ALLOWED_DOMAINS=suaescola.edu.br
 > Deixe `GOOGLE_ALLOWED_DOMAINS` vazio em desenvolvimento para aceitar qualquer domínio Google.
 
 
-# Sistema de Refeição Escolar
 
-## 📌 Frontend
+## 2. Frontend
 
 Tecnologias utilizadas:
 - React

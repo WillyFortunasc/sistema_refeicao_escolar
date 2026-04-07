@@ -21,16 +21,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
-    "corsheaders",   # se você estiver usando CORS
-    "core",          # <-- importante: registrar seu app aqui
+    "corsheaders",
+    "core",
 ]
 
-# Informar ao Django que o modelo de usuário padrão é o Usuario do app core
 AUTH_USER_MODEL = "core.Usuario"
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "corsheaders.middleware.CorsMiddleware",  # deve vir antes de CommonMiddleware
+    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -59,7 +58,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "core.wsgi.application"
 
-# Banco de dados — SQLite para dev, PostgreSQL para produção
+# Banco de dados
 if os.getenv("DATABASE_URL"):
     import dj_database_url
     DATABASES = {
@@ -86,6 +85,7 @@ USE_I18N = True
 USE_TZ = True
 
 STATIC_URL = "static/"
+
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # Django REST Framework
@@ -98,7 +98,5 @@ REST_FRAMEWORK = {
     ],
 }
 
-# CORS — permite o frontend conectar durante desenvolvimento
-CORS_ALLOWED_ORIGINS = os.getenv(
-    "CORS_ALLOWED_ORIGINS"
-    
+# CORS (LIBERADO PARA DESENVOLVIMENTO)
+CORS_ALLOW_ALL_ORIGINS = True

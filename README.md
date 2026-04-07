@@ -480,7 +480,6 @@ GOOGLE_ALLOWED_DOMAINS=suaescola.edu.br
 > Deixe `GOOGLE_ALLOWED_DOMAINS` vazio em desenvolvimento para aceitar qualquer domínio Google.
 
 
-
 ## 2. Frontend
 
 Tecnologias utilizadas:

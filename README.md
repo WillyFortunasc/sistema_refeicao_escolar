@@ -3,7 +3,7 @@
 Sistema de gestão de refeições escolares com autenticação via JWT e Google OAuth2, desenvolvido com Django REST Framework no backend e React + Vite no frontend.
 
 ---
-1. Backend
+## 1. Backend
 
 ## 📋 Índice
 

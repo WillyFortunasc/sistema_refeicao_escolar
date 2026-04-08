@@ -21,14 +21,15 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'api',  # ESSENCIAL
+    'corsheaders',  # ✅ necessário pro React
+    'api',          # ✅ seu app
 ]
 
-AUTH_USER_MODEL = "api.Usuario"  # ✅ CORRIGIDO
+AUTH_USER_MODEL = "api.Usuario"
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",  # ✅ TEM QUE SER O PRIMEIRO
     "django.middleware.security.SecurityMiddleware",
-    "corsheaders.middleware.CorsMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -85,22 +86,19 @@ USE_TZ = True
 STATIC_URL = "static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# ✅ CONFIG DO DRF (corrigido)
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": [
         "rest_framework.authentication.SessionAuthentication",
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.AllowAny",
     ],
 }
 
-CORS_ALLOWED_ORIGINS = os.getenv(
-    "CORS_ALLOWED_ORIGINS",
-    "http://localhost:5173"
-).split(",")
+# ✅ CORS (ESSENCIAL PRO REACT)
+CORS_ALLOW_ALL_ORIGINS = True
 
-REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
-    ],
-}
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+]

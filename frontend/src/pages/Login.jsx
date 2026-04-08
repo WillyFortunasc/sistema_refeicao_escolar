@@ -1,24 +1,41 @@
 import { useState, useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
+import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [msg, setMsg] = useState("");
 
-  const { login } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const sucesso = await login(email, senha);
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/login/", {
+        email,
+        senha,
+      });
 
-    if (sucesso) {
-      navigate("/home");
-    } else {
-      setMsg("Credenciais inválidas ❌");
+      const token = response.data.token;
+
+      // salva token
+      localStorage.setItem("token", token);
+
+      // ativa contexto (login)
+      login();
+
+      setMsg("Login realizado com sucesso 🚀");
+
+      // 🔥 REDIRECIONA PRA HOME
+      navigate("/");
+
+    } catch (error) {
+      console.error(error);
+      setMsg("Erro ao fazer login ❌");
     }
   };
 
@@ -33,7 +50,7 @@ export default function Login() {
           <input
             type="email"
             placeholder="Email"
-            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-2 border rounded-lg"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -41,19 +58,20 @@ export default function Login() {
           <input
             type="password"
             placeholder="Senha"
-            className="w-full p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="w-full p-2 border rounded-lg"
             value={senha}
             onChange={(e) => setSenha(e.target.value)}
           />
 
-          <button className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded-lg"
+          >
             Entrar
           </button>
         </form>
 
-        {msg && (
-          <p className="mt-4 text-center text-sm text-gray-600">{msg}</p>
-        )}
+        {msg && <p className="mt-4 text-center">{msg}</p>}
       </div>
     </div>
   );

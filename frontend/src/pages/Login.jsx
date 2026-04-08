@@ -1,15 +1,13 @@
-import { useState, useContext } from "react";
+import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../context/AuthContext";
 
 export default function Login() {
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [senha, setSenha] = useState("");
   const [msg, setMsg] = useState("");
-
-  const navigate = useNavigate();
-  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -25,13 +23,12 @@ export default function Login() {
       // salva token
       localStorage.setItem("token", token);
 
-      // ativa contexto (login)
-      login();
-
       setMsg("Login realizado com sucesso 🚀");
 
-      // 🔥 REDIRECIONA PRA HOME
-      navigate("/");
+      // 🚀 AQUI ESTÁ O QUE FALTAVA
+      setTimeout(() => {
+        navigate("/home");
+      }, 500);
 
     } catch (error) {
       console.error(error);

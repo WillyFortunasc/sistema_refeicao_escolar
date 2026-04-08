@@ -1,14 +1,9 @@
 from django.urls import path
-from . import views
+from .views import RegistroView, LoginView, health_check
 
 urlpatterns = [
-    path('health/', views.health_check, name='health-check'),
+    path('health/', health_check),
+    path('login/', LoginView.as_view()),
+    path('registro/', RegistroView.as_view()),
 ]
-## coloquei agora 01 de abril
-from django.contrib import admin
-from django.urls import path, include
 
-urlpatterns = [
-    path("admin/", admin.site.urls),
-    path("api/", include("core.urls")),
-]

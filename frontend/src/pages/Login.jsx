@@ -1,48 +1,62 @@
-import { useContext } from 'react'
-import { AuthContext } from '../context/AuthContext'
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
+import axios from "axios";
 
-function Login() {
-  const { login } = useContext(AuthContext)
-  const navigate = useNavigate()
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+  const [msg, setMsg] = useState("");
 
-  function handleLogin() {
-    login()
-    navigate('/home')
-  }
+  const handleLogin = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("http://127.0.0.1:8000/api/login/", {
+        email,
+        senha,
+      });
+
+      const token = response.data.token;
+
+      // salva o token
+      localStorage.setItem("token", token);
+
+      setMsg("Login realizado com sucesso 🚀");
+
+      console.log("TOKEN:", token);
+
+    } catch (error) {
+      setMsg("Erro ao fazer login ❌");
+      console.error(error);
+    }
+  };
 
   return (
-    <div className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-2xl shadow-lg w-96">
-        <h2 className="text-2xl font-bold mb-6 text-center">
-          Login
-        </h2>
+    <div style={{ padding: 20 }}>
+      <h2>Login</h2>
 
-        <input
-          type="email"
-          placeholder="Email"
-          className="w-full mb-4 p-2 border rounded"
-        />
+      <form onSubmit={handleLogin}>
+        <div>
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
 
-        <input
-          type="password"
-          placeholder="Senha"
-          className="w-full mb-4 p-2 border rounded"
-        />
+        <div>
+          <input
+            type="password"
+            placeholder="Senha"
+            value={senha}
+            onChange={(e) => setSenha(e.target.value)}
+          />
+        </div>
 
-        <button
-          onClick={handleLogin}
-          className="w-full bg-blue-600 text-white p-2 rounded mb-4"
-        >
-          Entrar
-        </button>
+        <button type="submit">Entrar</button>
+      </form>
 
-        <button className="w-full bg-red-500 text-white p-2 rounded flex items-center justify-center gap-2">
-          🔐 Entrar com Google
-        </button>
-      </div>
+      <p>{msg}</p>
     </div>
-  )
+  );
 }
-
-export default Login

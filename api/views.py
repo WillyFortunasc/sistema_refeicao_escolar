@@ -7,8 +7,8 @@ from django.http import JsonResponse
 import jwt
 from django.conf import settings
 
-from .models import Usuario, Estudante, Digital
-from .serializers import UsuarioSerializer, EstudanteSerializer, DigitalSerializer
+from .models import Usuario, Estudante
+from .serializers import UsuarioSerializer, EstudanteSerializer
 
 
 def health_check(request):
@@ -54,26 +54,11 @@ class LoginView(APIView):
 
 
 # =========================
-# ESTUDANTE
+# CRUD ESTUDANTE (LIBERADO TEMPORARIAMENTE)
 # =========================
 
 class EstudanteViewSet(viewsets.ModelViewSet):
     queryset = Estudante.objects.all().order_by("-criado_em")
     serializer_class = EstudanteSerializer
-    permission_classes = [AllowAny]
-
-
-# =========================
-# DIGITAL
-# =========================
-
-class DigitalViewSet(viewsets.ModelViewSet):
-    queryset = Digital.objects.all()
-    serializer_class = DigitalSerializer
-    permission_classes = [AllowAny]
-
-    def get_queryset(self):
-        estudante_id = self.request.query_params.get("estudante_id")
-        if estudante_id:
-            return self.queryset.filter(estudante_id=estudante_id)
-        return self.queryset
+    permission_classes = [AllowAny]  # 🔥 AQUI ESTÁ A CORREÇÃO
+    

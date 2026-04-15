@@ -18,22 +18,22 @@ Sistema backend de gestão de refeições escolares com autenticação JWT, dese
 
 sistema-refeicao-escolar/
 │
-├── core/                 # Configurações principais do Django
+├── core/
 │   ├── settings.py
 │   ├── urls.py
 │   ├── wsgi.py
 │
-├── api/                  # Regras do sistema (views, models, serializers)
+├── api/
 │   ├── models.py
 │   ├── views.py
 │   ├── serializers.py
 │   ├── urls.py
 │   └── tests/
 │
-├── seed.py               # Usuários de teste
-├── manage.py             # Comando principal Django
-├── requirements.txt      # Dependências
-└── db.sqlite3            # Banco local
+├── seed.py
+├── manage.py
+├── requirements.txt
+└── db.sqlite3
 
 ---
 
@@ -77,7 +77,7 @@ http://localhost:8000/api/login/
 
 ---
 
-### Usando o token
+## 🔑 Uso do token
 
 Authorization: Bearer SEU_TOKEN
 
@@ -105,3 +105,9 @@ PATCH | /api/usuarios/<id>/ | Editar usuário
 DELETE | /api/usuarios/<id>/ | Remover usuário
 
 ---
+
+## 🧠 Observações
+
+Projeto backend apenas (entrega acadêmica)
+Autenticação via JWT
+Controle por papéis (admin, operador, gestor, empresa)

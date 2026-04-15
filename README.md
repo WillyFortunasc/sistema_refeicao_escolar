@@ -67,29 +67,33 @@ python manage.py runserver
 
 ### Login (POST)
 
----
+```
 POST http://localhost:8000/api/login/
+```
 
+```
 Body:
 {
   "email": "admin@sistema.com",
 
   "senha": "Admin@123"
 }
----
+```
 
+```
 ### Resposta
 {
   "token": "JWT_TOKEN",
   "papel": "admin"
 }
+```
 
----
+```
 
 ### Usando token
 Authorization: Bearer SEU_TOKEN
 
----
+```
 
 ## 👤 Usuários de teste
 

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import api from "../services/api"; // usa o api.js
 
 export default function Login() {
   const navigate = useNavigate();
@@ -13,25 +13,26 @@ export default function Login() {
     e.preventDefault();
 
     try {
-      const response = await axios.post("http://127.0.0.1:8000/api/login/", {
+      const response = await api.post("/login/", {
         email,
         senha,
       });
 
-      const token = response.data.token;
+      // ⚠️ pega o token correto
+      const token = response.data.access;
 
       // salva token
       localStorage.setItem("token", token);
 
       setMsg("Login realizado com sucesso 🚀");
 
-      // 🚀 AQUI ESTÁ O QUE FALTAVA
+      // redireciona
       setTimeout(() => {
         navigate("/home");
       }, 500);
 
     } catch (error) {
-      console.error(error);
+      console.error(error.response?.data || error);
       setMsg("Erro ao fazer login ❌");
     }
   };

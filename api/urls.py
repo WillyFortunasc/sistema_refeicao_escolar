@@ -1,9 +1,10 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import RegistroView, LoginView, health_check, EstudanteViewSet
+from .views import RegistroView, LoginView, health_check, EstudanteViewSet, DigitalViewSet
 
 router = DefaultRouter()
-router.register(r'estudantes', EstudanteViewSet, basename='estudantes')
+router.register(r'estudantes', EstudanteViewSet)
+router.register(r'digitais', DigitalViewSet)
 
 urlpatterns = [
     path('health/', health_check),

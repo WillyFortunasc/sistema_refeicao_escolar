@@ -2,6 +2,10 @@ from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseU
 from django.db import models
 
 
+# =========================
+# USUÁRIO
+# =========================
+
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, nome, senha=None, **extra_fields):
         if not email:
@@ -23,6 +27,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     senha = models.CharField(max_length=128, blank=True, null=True)
     google_id = models.CharField(max_length=255, blank=True, null=True)
+
     papel = models.CharField(
         max_length=20,
         choices=[
@@ -33,9 +38,9 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
             ("admin", "Admin"),
         ]
     )
+
     ativo = models.BooleanField(default=True)
     ultimo_acesso = models.DateTimeField(null=True, blank=True)
-
     is_staff = models.BooleanField(default=False)
 
     USERNAME_FIELD = "email"
@@ -48,7 +53,7 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
 
 # =========================
-# NOVO MODEL - ESTUDANTE
+# ESTUDANTE
 # =========================
 
 class Estudante(models.Model):
@@ -64,4 +69,19 @@ class Estudante(models.Model):
     atualizado_em = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.nome_completo} ({self.matricula})"
+        return self.nome_completo
+
+
+# =========================
+# DIGITAL (NOVO)
+# =========================
+
+class Digital(models.Model):
+    estudante = models.ForeignKey(Estudante, on_delete=models.CASCADE, related_name="digitais")
+    codigo_hex = models.CharField(max_length=255, unique=True)
+    dedo = models.CharField(max_length=50, blank=True, null=True)
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.estudante.nome_completo} - {self.codigo_hex}"

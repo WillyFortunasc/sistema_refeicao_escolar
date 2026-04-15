@@ -90,7 +90,7 @@ Body:
 
 
 ### Usando token
-'Authorization: Bearer SEU_TOKEN'
+` Authorization: Bearer SEU_TOKEN `
 
 ## 👤 Usuários de teste
 

@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
 from django.db import models
 
+
 class UsuarioManager(BaseUserManager):
     def create_user(self, email, nome, senha=None, **extra_fields):
         if not email:
@@ -15,6 +16,7 @@ class UsuarioManager(BaseUserManager):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(email, nome, senha, **extra_fields)
+
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
     nome = models.CharField(max_length=255)
@@ -43,3 +45,23 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+# =========================
+# NOVO MODEL - ESTUDANTE
+# =========================
+
+class Estudante(models.Model):
+    nome_completo = models.CharField(max_length=255)
+    matricula = models.CharField(max_length=50, unique=True)
+    data_nascimento = models.DateField()
+    curso = models.CharField(max_length=100)
+    turma = models.CharField(max_length=50)
+    foto = models.ImageField(upload_to='fotos/', null=True, blank=True)
+    ativo = models.BooleanField(default=True)
+
+    criado_em = models.DateTimeField(auto_now_add=True)
+    atualizado_em = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.nome_completo} ({self.matricula})"

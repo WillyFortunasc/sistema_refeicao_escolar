@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-from .models import Usuario
+from .models import Usuario, Estudante
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -29,7 +29,7 @@ class RegistroSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         senha = validated_data.pop("senha")
         user  = Usuario(**validated_data)
-        user.set_password(senha)   # hash via Django (PBKDF2)
+        user.set_password(senha)
         user.save()
         return user
 
@@ -37,3 +37,13 @@ class RegistroSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()
     senha = serializers.CharField(write_only=True)
+
+
+# =========================
+# NOVO SERIALIZER - ESTUDANTE
+# =========================
+
+class EstudanteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Estudante
+        fields = "__all__"

@@ -1,13 +1,14 @@
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status, permissions, viewsets
+from rest_framework.permissions import AllowAny
 from django.contrib.auth import authenticate
 from django.http import JsonResponse
 import jwt
 from django.conf import settings
 
-from .models import Usuario
-from .serializers import UsuarioSerializer
+from .models import Usuario, Estudante
+from .serializers import UsuarioSerializer, EstudanteSerializer
 
 
 def health_check(request):
@@ -50,3 +51,14 @@ class LoginView(APIView):
             {"error": "Credenciais inválidas"},
             status=status.HTTP_401_UNAUTHORIZED
         )
+
+
+# =========================
+# CRUD ESTUDANTE (LIBERADO TEMPORARIAMENTE)
+# =========================
+
+class EstudanteViewSet(viewsets.ModelViewSet):
+    queryset = Estudante.objects.all().order_by("-criado_em")
+    serializer_class = EstudanteSerializer
+    permission_classes = [AllowAny]  # 🔥 AQUI ESTÁ A CORREÇÃO
+    

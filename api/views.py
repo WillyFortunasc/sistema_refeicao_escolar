@@ -7,14 +7,20 @@ from django.http import JsonResponse
 import jwt
 from django.conf import settings
 
-from .models import Usuario, Estudante
-from .serializers import UsuarioSerializer, EstudanteSerializer
+from .models import Usuario, Estudante, Digital
+from .serializers import UsuarioSerializer, EstudanteSerializer, DigitalSerializer
 
 
+# =========================
+# HEALTH CHECK
+# =========================
 def health_check(request):
     return JsonResponse({"status": "ok"})
 
 
+# =========================
+# REGISTRO
+# =========================
 class RegistroView(APIView):
     permission_classes = [permissions.IsAdminUser]
 
@@ -26,6 +32,9 @@ class RegistroView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+# =========================
+# LOGIN
+# =========================
 class LoginView(APIView):
     def post(self, request):
         email = request.data.get("email")
@@ -54,11 +63,18 @@ class LoginView(APIView):
 
 
 # =========================
-# CRUD ESTUDANTE (LIBERADO TEMPORARIAMENTE)
+# ESTUDANTES
 # =========================
-
 class EstudanteViewSet(viewsets.ModelViewSet):
     queryset = Estudante.objects.all().order_by("-criado_em")
     serializer_class = EstudanteSerializer
-    permission_classes = [AllowAny]  # 🔥 AQUI ESTÁ A CORREÇÃO
-    
+    permission_classes = [AllowAny]
+
+
+# =========================
+# DIGITAIS (BIOMETRIA)
+# =========================
+class DigitalViewSet(viewsets.ModelViewSet):
+    queryset = Digital.objects.all().order_by("-criado_em")
+    serializer_class = DigitalSerializer
+    permission_classes = [AllowAny]

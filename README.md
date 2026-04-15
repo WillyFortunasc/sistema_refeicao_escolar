@@ -1,23 +1,22 @@
 # 🍽️ Sistema de Refeição Escolar
 
-Sistema backend de gestão de refeições escolares com autenticação JWT, desenvolvido com Django REST Framework.
+Sistema backend com Django REST Framework + JWT.
 
 ---
 
 ## 🚀 Backend
 
-### 📦 Tecnologias
+Tecnologias:
 - Django 6
 - Django REST Framework
 - JWT (PyJWT)
-- SQLite (desenvolvimento)
+- SQLite
 
 ---
 
 ## 📁 Estrutura do projeto
 
 sistema-refeicao-escolar/
-│
 ├── core/
 │   ├── settings.py
 │   ├── urls.py
@@ -37,7 +36,7 @@ sistema-refeicao-escolar/
 
 ---
 
-## ⚙️ Como rodar o projeto
+## ⚙️ Como rodar
 
 python -m venv venv
 venv\Scripts\activate
@@ -52,24 +51,23 @@ python manage.py runserver
 ## 🌐 Acesso
 
 API: http://localhost:8000/api/
-Login: http://localhost:8000/api/login/
-Health: http://localhost:8000/api/health/
-Admin: http://localhost:8000/admin/
+LOGIN: http://localhost:8000/api/login/
+HEALTH: http://localhost:8000/api/health/
+ADMIN: http://localhost:8000/admin/
 
 ---
 
-## 🔐 Autenticação
+## 🔐 Login
 
-### Login (POST)
-http://localhost:8000/api/login/
+POST http://localhost:8000/api/login/
 
+Body:
 {
   "email": "admin@sistema.com",
   "senha": "Admin@123"
 }
 
-### Resposta
-
+Resposta:
 {
   "token": "JWT_TOKEN",
   "papel": "admin"
@@ -77,7 +75,7 @@ http://localhost:8000/api/login/
 
 ---
 
-## 🔑 Uso do token
+## 🔑 Token
 
 Authorization: Bearer SEU_TOKEN
 
@@ -85,7 +83,6 @@ Authorization: Bearer SEU_TOKEN
 
 ## 👤 Usuários de teste
 
-Email | Senha | Papel
 admin@sistema.com | Admin@123 | admin
 operador@sistema.com | Oper@123 | operador
 gestor@sistema.com | Gest@123 | gestor
@@ -93,21 +90,14 @@ empresa@sistema.com | Empr@123 | empresa
 
 ---
 
-## 🔵 Endpoints principais
+## 🔵 Endpoints
 
-Método | Endpoint | Descrição
-GET | /api/health/ | Status da API
-POST | /api/login/ | Login
-POST | /api/registro/ | Criar usuário (admin)
-GET | /api/usuarios/ | Listar usuários
-GET | /api/usuarios/<id>/ | Detalhe usuário
-PATCH | /api/usuarios/<id>/ | Editar usuário
-DELETE | /api/usuarios/<id>/ | Remover usuário
+GET    /api/health/
+POST   /api/login/
+POST   /api/registro/
+GET    /api/usuarios/
+GET    /api/usuarios/<id>/
+PATCH  /api/usuarios/<id>/
+DELETE /api/usuarios/<id>/
 
 ---
-
-## 🧠 Observações
-
-Projeto backend apenas (entrega acadêmica)
-Autenticação via JWT
-Controle por papéis (admin, operador, gestor, empresa)

@@ -7,8 +7,13 @@ from django.http import JsonResponse
 import jwt
 from django.conf import settings
 
-from .models import Usuario, Estudante, Digital
-from .serializers import UsuarioSerializer, EstudanteSerializer, DigitalSerializer
+from .models import Usuario, Estudante, Digital, Refeicao
+from .serializers import (
+    UsuarioSerializer,
+    EstudanteSerializer,
+    DigitalSerializer,
+    RefeicaoSerializer
+)
 
 
 # =========================
@@ -26,9 +31,11 @@ class RegistroView(APIView):
 
     def post(self, request):
         serializer = UsuarioSerializer(data=request.data)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -72,9 +79,18 @@ class EstudanteViewSet(viewsets.ModelViewSet):
 
 
 # =========================
-# DIGITAIS (BIOMETRIA)
+# DIGITAIS
 # =========================
 class DigitalViewSet(viewsets.ModelViewSet):
     queryset = Digital.objects.all().order_by("-criado_em")
     serializer_class = DigitalSerializer
+    permission_classes = [AllowAny]
+
+
+# =========================
+# REFEIÇÕES
+# =========================
+class RefeicaoViewSet(viewsets.ModelViewSet):
+    queryset = Refeicao.objects.all().order_by("-data_hora")
+    serializer_class = RefeicaoSerializer
     permission_classes = [AllowAny]

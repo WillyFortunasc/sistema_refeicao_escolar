@@ -1,6 +1,8 @@
 from rest_framework import serializers
 from django.contrib.auth.password_validation import validate_password
-from .models import Usuario, Estudante, Digital
+from django.utils import timezone
+
+from .models import Usuario, Estudante, Digital, Refeicao
 
 
 # =========================
@@ -63,7 +65,6 @@ class DigitalSerializer(serializers.ModelSerializer):
         if not value.startswith("0x"):
             raise serializers.ValidationError("Código deve começar com 0x")
 
-        # impede duplicidade global
         if Digital.objects.filter(codigo_hex=value).exists():
             raise serializers.ValidationError("Este código já está cadastrado.")
 
@@ -78,5 +79,33 @@ class DigitalSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(
                     "Este aluno já possui 3 digitais cadastradas."
                 )
+
+        return data
+
+
+# =========================
+# REFEIÇÃO
+# =========================
+
+class RefeicaoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Refeicao
+        fields = "__all__"
+
+    def validate(self, data):
+        estudante = data.get("estudante")
+        tipo = data.get("tipo")
+        hoje = timezone.now().date()
+
+        existe = Refeicao.objects.filter(
+            estudante=estudante,
+            tipo=tipo,
+            data_hora__date=hoje
+        ).exists()
+
+        if existe:
+            raise serializers.ValidationError(
+                "Este aluno já recebeu esta refeição hoje."
+            )
 
         return data

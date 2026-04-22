@@ -6,12 +6,14 @@ from .views import (
     LoginView,
     health_check,
     EstudanteViewSet,
-    DigitalViewSet
+    DigitalViewSet,
+    RefeicaoViewSet
 )
 
 router = DefaultRouter()
 router.register(r'estudantes', EstudanteViewSet)
 router.register(r'digitais', DigitalViewSet)
+router.register(r'refeicoes', RefeicaoViewSet)
 
 urlpatterns = [
     path('health/', health_check),

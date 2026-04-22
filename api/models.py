@@ -102,3 +102,24 @@ class Digital(models.Model):
 
     def __str__(self):
         return f"{self.estudante.nome_completo} - {self.codigo_hex}"
+
+class Refeicao(models.Model):
+    estudante = models.ForeignKey(
+        Estudante,
+        on_delete=models.CASCADE,
+        related_name="refeicoes"
+    )
+
+    data_hora = models.DateTimeField(auto_now_add=True)
+
+    tipo = models.CharField(
+        max_length=20,
+        choices=[
+            ("cafe", "Café"),
+            ("almoco", "Almoço"),
+            ("jantar", "Jantar"),
+        ]
+    )
+
+    def __str__(self):
+        return f"{self.estudante.nome_completo} - {self.tipo}"
